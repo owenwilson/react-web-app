@@ -39,3 +39,24 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Ignore the entire .vscode directory by default
+.vscode/*
+
+# BUT do not ignore shared configurations that teams need
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/code-actions-on-save.json
+
+# Ignore local history and workspace state files
+.vscode/.react/
+*.code-workspace
+
+# intellij idea
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
