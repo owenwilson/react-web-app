@@ -3,8 +3,7 @@
 - In this example, I"m using pnpm because I saw many reports of supply chain attacks on npm, so now we're using pnpm to have better control and security.
 
 ## setup
-
-
+ 
 - create proyect react
 
 ```sh
@@ -21,6 +20,24 @@ pnpm create next-app
 ✔ What import alias would you like configured? … @/*
 ✔ Would you like to include AGENTS.md to guide coding agents to write up-to-date Next.js code? … No / Yes
 Creating a new Next.js app in /home/user/react-web-app.
+```
+
+## scan vulnerabilities
+
+- [clamav scan tool](https://www.clamav.net/)
+
+```sh
+clamscan -v -i -r ./react-web-app
+```
+
+- [trivy scan tool](https://github.com/owenwilson/trivy-scanner)
+
+```sh
+docker exec -it trivy-scanner trivy fs /root/react-web-app
+```
+
+```sh
+docker exec -it trivy-scanner trivy --severity HIGH fs /root/react-web-app
 ```
 
 ## Getting Started
@@ -42,7 +59,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
 
 ## references
 
