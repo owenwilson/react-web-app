@@ -37,6 +37,7 @@ export default function Home() {
             </a>{" "}
             center.
           </p>
+          <p>ci-cd-azure-pipelines nextjs app</p>
         </div>
         <div className={styles.ctas}>
           <a
