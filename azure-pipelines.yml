@@ -1,16 +1,56 @@
 trigger:
-- main
+ branches:
+   include:
+     - main
+     - develop
 
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
+variables:
+  - group: secrets-vars-react-web-app
+  - template: '.azureDevops/prodVariables.yml'
+  - name: isProduction
+    value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/main') ]
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+stages:
+- stage: BuildNextApp
+  displayName: 'Stage: Build Next App'
+  jobs:
+    - job: BuildApp
+      displayName: 'Job: Build App'
+      steps:
+        # ci-cd: nodejs 20
+        - task: NodeTaskRunnerInstaller@0
+          displayName: 'Step: Install Node.js'
+          inputs:
+            versionSpec: $(NODE_VERSION)
+
+        # ci-cd: install dependencies
+        - script: npm install
+          displayName: 'Step: Install dependencies'
+
+        # ci-cd: run tests
+        - script: npm run test
+          displayName: 'Step: Run unit tests'
+
+        # ci-cd: run build
+        - script: npm run build
+          displayName: 'Step: Build Next.js App'
+
+- stage: DeployNextApp
+  displayName: 'Stage: Deploy Next App'
+  dependsOn: BuildNextApp
+  condition: and(succeeded(), eq(variable['isProduction'], 'true'))
+  jobs:
+    - job: DeployNextApp
+      displayName: 'Job: Deploy Next App'
+      steps:
+        # ci-cd: deploy vercel
+        - task: vercel-deployment-task@3
+          displayName: 'Task: Deploy Next App'
+          inputs:
+            vercelProjectId: '$(vercelProjectId)'
+            vercelTeamId: '$(vercelTeamId)'
+            vercelToken: '$(vercelToken)'
+            production: true
