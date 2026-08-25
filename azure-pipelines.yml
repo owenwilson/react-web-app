@@ -9,7 +9,7 @@ pool:
 
 variables:
   - group: secrets-vars-react-web-app
-  - template: '.azureDevops/prodVariables.yml'
+  - template: .azureDevops/prodVariables.yml
   - name: isProduction
     value: $[ eq(variables['Build.SourceBranch'], 'refs/heads/main') ]
 
