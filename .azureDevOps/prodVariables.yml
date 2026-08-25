@@ -1,0 +1,5 @@
+variables:
+  - name: isProduction
+    value: false
+  - name: NODE_VERSION
+    value: '20.x'
