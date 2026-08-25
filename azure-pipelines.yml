@@ -41,7 +41,7 @@ stages:
 - stage: DeployNextApp
   displayName: 'Stage: Deploy Next App'
   dependsOn: BuildNextApp
-  condition: and(succeeded(), eq(variable['isProduction'], 'true'))
+  condition: and(succeeded(), eq(variables['isProduction'], 'true'))
   jobs:
     - job: DeployNextApp
       displayName: 'Job: Deploy Next App'
